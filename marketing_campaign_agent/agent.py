@@ -14,7 +14,11 @@ from google.adk.tools import google_search
 
 from marketing_campaign_agent.instructions import(
     MARKET_RESEARCH_INSTRUCTION,
-    CAMPAIGN_ORCHESTRATOR_INSTRUCTION
+    CAMPAIGN_ORCHESTRATOR_INSTRUCTION,
+    MESSAGING_STRATEGIST_INSTRUCTION,
+    AD_COPY_WRITER_INSTRUCTION,
+    VISUAL_SUGGESTER_INSTRUCTION,
+    FORMATTER_INSTRUCTION
 )
 
 market_research_agent = LlmAgent(
@@ -22,7 +26,14 @@ market_research_agent = LlmAgent(
     model = MODEL_NAME,
     description = MARKET_RESEARCH_INSTRUCTION,
     tools = [google_search],
-    # output_key = "market_research_summary"
+    output_key = "market_research_summary"
+)
+
+messaging_strategist_agent = LlmAgent(
+    name="MessagingStrategist",
+    model = MODEL_NAME,
+    instruction=MESSAGING_STRATEGIST_INSTRUCTION,
+    output_key="key_messaging"
 )
 
 
