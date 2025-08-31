@@ -37,6 +37,14 @@ messaging_strategist_agent = LlmAgent(
 )
 
 
+ad_copy_writer_agent = LlmAgent(
+    name="AdCopyWriter",
+    model=MODEL_NAME,
+    instruction=AD_COPY_WRITER_INSTRUCTION,
+    output_key="ad_copy_variations"
+)
+
+
 campaign_orchestrator = SequentialAgent(
     name = "MarketingCampaignAssistant",
     description = CAMPAIGN_ORCHESTRATOR_INSTRUCTION,
