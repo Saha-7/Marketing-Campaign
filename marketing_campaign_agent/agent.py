@@ -13,13 +13,26 @@ from google.adk.agents import LlmAgent, SequentialAgent
 from google.adk.tools import google_search
 
 from marketing_campaign_agent.instructions import(
-    MARKET_RESEARCH_INSTRUCTION
+    MARKET_RESEARCH_INSTRUCTION,
+    CAMPAIGN_ORCHESTRATOR_INSTRUCTION
 )
 
 market_research_agent = LlmAgent(
-    name = "Market Researcher",
+    name = "MarketResearcher",
     model = MODEL_NAME,
-    instructions = MARKET_RESEARCH_INSTRUCTION,
-    tools = [google_search]
-    outouput_key = "market_research_summary"
+    description = MARKET_RESEARCH_INSTRUCTION,
+    tools = [google_search],
+    # output_key = "market_research_summary"
 )
+
+
+campaign_orchestrator = SequentialAgent(
+    name = "MarketingCampaignAssistant",
+    description = CAMPAIGN_ORCHESTRATOR_INSTRUCTION,
+    sub_agents = [
+        market_research_agent
+    ]
+)
+
+
+root_agent = campaign_orchestrator
