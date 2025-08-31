@@ -45,11 +45,33 @@ ad_copy_writer_agent = LlmAgent(
 )
 
 
+visual_suggester_agent = LlmAgent(
+    name="VisualSuggester",
+    model=MODEL_NAME,  # Using environment variable
+    instruction=VISUAL_SUGGESTER_INSTRUCTION,
+     # instruction="Suggest visual concepts for ad copy: {{state.ad_copy_variations}}"
+    output_key="visual_concepts" # Save result to state
+)
+
+# --- Sub Agent 5: Formatter ---
+# This agent will read multiple state keys and combine into the final Markdown
+formatter_agent = LlmAgent(
+    name="CampaignBriefFormatter",
+    model=MODEL_NAME,  # Using environment variable
+    instruction=FORMATTER_INSTRUCTION,
+    output_key="final_campaign_brief" # Save final result to state
+)
+
+
 campaign_orchestrator = SequentialAgent(
     name = "MarketingCampaignAssistant",
     description = CAMPAIGN_ORCHESTRATOR_INSTRUCTION,
     sub_agents = [
-        market_research_agent
+        market_research_agent,
+        messaging_strategist_agent,
+        ad_copy_writer_agent,
+        visual_suggester_agent,
+        formatter_agent
     ]
 )
 
